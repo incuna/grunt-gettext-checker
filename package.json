@@ -1,0 +1,39 @@
+{
+  "name": "grunt-gettext-checker",
+  "version": "0.1",
+  "description": "Compare .pot and .po files for differences",
+  "keywords": [
+    "gruntplugin"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Graham Gilchrist",
+    "email": "graham@incuna.com"
+  },
+  "files": [
+    "tasks/gettext-checker.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "incuna/grunt-gettext-checker.git"
+  },
+  "scripts": {
+    "test": "grunt"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "pofile": "~0.2.12"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.0"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "maintainers": [
+    {
+      "name": "grahamgilchrist",
+      "email": "graham@incuna.com"
+    }
+  ]
+}
