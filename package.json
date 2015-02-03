@@ -18,7 +18,7 @@
     "url": "incuna/grunt-gettext-checker.git"
   },
   "scripts": {
-    "test": "grunt"
+    "test": "grunt test"
   },
   "devDependencies": {
     "grunt": "~0.4.0",
