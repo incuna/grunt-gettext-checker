@@ -2,6 +2,9 @@ module.exports = function (grunt) {
 
     'use strict';
 
+    // Use jit-grunt to only load necessary tasks for each invocation of grunt.
+    require('jit-grunt')(grunt);
+
     require('time-grunt')(grunt);
 
     grunt.initConfig({
@@ -16,14 +19,14 @@ module.exports = function (grunt) {
                 jshintrc: '.jshintrc'
             },
             all: [
-                '<%= config.files.lint %>'
+                '<%= config.lint %>'
             ]
         },
         jscs: {
             options: {
                 config: '.jscsrc'
             },
-            src: '<%= config.files.lint %>'
+            src: '<%= config.lint %>'
         }
     });
 
