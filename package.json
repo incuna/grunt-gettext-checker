@@ -1,6 +1,6 @@
 {
   "name": "grunt-gettext-checker",
-  "version": "0.1",
+  "version": "0.1.0",
   "description": "Compare .pot and .po files for differences",
   "keywords": [
     "gruntplugin"
@@ -22,7 +22,11 @@
   },
   "devDependencies": {
     "grunt": "~0.4.0",
-    "pofile": "~0.2.12"
+    "grunt-contrib-jshint": "0.10.0",
+    "grunt-jscs": "1.2.0",
+    "jit-grunt": "0.3.2",
+    "pofile": "~0.2.12",
+    "time-grunt": "0.3.1"
   },
   "peerDependencies": {
     "grunt": "~0.4.0"
