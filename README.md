@@ -59,6 +59,24 @@ Default value: `i18n/en-gb.po`
 
 The name and path of the `.po` translation file to compare. Relative to the Gruntfile.
 
+#### options.checkPoKeys
+Type: `Boolean`
+Default value: `true`
+
+Whether to check that all keys from the input `.pot` file are present in the `.po` file
+
+#### options.checkPotKeys
+Type: `Boolean`
+Default value: `true`
+
+Whether to check that all keys from the `.po` file are present in the template `.pot` file
+
+#### options.checkKeyOrder
+Type: `Boolean`
+Default value: `true`
+
+Whether to check that the keys in the `.pot` and `.po` files are in the same order
+
 ### Usage Examples
 
 #### Default Options
@@ -68,6 +86,9 @@ These would be the default options as used in a Gruntfile.
 grunt.initConfig({
     gettext-checker: {
         options: {
+            checkPoKeys: true,
+            checkPotKeys: true,
+            checkKeyOrder: true,
             potFile: 'i18n/template.pot',
             poFile: 'i18n/en-gb.po',
         }
