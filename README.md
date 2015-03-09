@@ -14,7 +14,7 @@ This plugin requires Grunt `~0.4.2`
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install git://github.com/incuna/grunt-gettext-checker.git#1.1.1 --save-dev
+npm install git://github.com/incuna/grunt-gettext-checker.git#2.0.0 --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
@@ -105,7 +105,7 @@ grunt.initConfig({
 * Lint and test your code using [Grunt](http://gruntjs.com/).
 * Test using `grunt test`
 * To release:
+    * Update `CHANGELOG.md`
     * Update `package.json` with version number (use semver)
     * Update install version in this README.md
-    * Update `CHANGELOG.md`
     * Tag release with version number
