@@ -70,7 +70,7 @@ module.exports = function (grunt) {
             // find items in template.pot that are not in this po file
             keyDiff = _.difference(potKeys, poKeys);
             if (keyDiff.length > 0 ) {
-                grunt.log.error('The following translation keys in ' + options.potFile + ' are not present in ' + options.poFile);
+                grunt.log.errorlns('The following translation keys in ' + options.potFile + ' are not present in ' + options.poFile);
                 grunt.log.error(keyDiff);
                 grunt.fail.fatal('Check FAILED.');
             } else {
@@ -82,7 +82,7 @@ module.exports = function (grunt) {
             // find items in this po file which are not in template.pot
             keyDiff = _.difference(poKeys, potKeys);
             if (keyDiff.length > 0 ) {
-                grunt.log.error('The following translation keys in ' + options.poFile + ' are not present in ' + options.potFile);
+                grunt.log.errorlns('The following translation keys in ' + options.poFile + ' are not present in ' + options.potFile);
                 grunt.log.error(keyDiff);
                 grunt.fail.fatal('Check FAILED.');
             } else {
@@ -91,9 +91,9 @@ module.exports = function (grunt) {
         }
 
         if (options.checkKeyOrder) {
-            // Check if keys in .pot file and .po file are in same order. We use _.find to drop out as soon as we find one non-matching
-            // to make things a bit faster if we can
-            var matchingOrder = _.find(potKeys, function (item, index) {
+            // Check if keys in .pot file and .po file are in same order. We use _.some to drop out as soon as we find
+            //  one non-matching key to make things a bit faster.
+            var outOfOrder = _.some(potKeys, function (item, index) {
                 if (poKeys[index] !== item) {
                     // The keys don't match, so are out of order
                     return true;
@@ -101,8 +101,8 @@ module.exports = function (grunt) {
                 return false;
             });
             // _.find returns undefined if all keys are in matching order, so we error if it is not undefined
-            if (!_.isUndefined(matchingOrder)) {
-                grunt.log.error(
+            if (outOfOrder) {
+                grunt.log.errorlns(
                     'The keys in ' + options.potFile + ' and ' + options.poFile + ' are not in the same order.\r\n' +
                     'If you were not expecting the order to change, please check your generating tool version and ' +
                     'environment to check it matches the environment used by the project.\r\n' +
