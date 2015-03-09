@@ -14,7 +14,7 @@ This plugin requires Grunt `~0.4.2`
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install git://github.com/incuna/grunt-gettext-checker.git#0.1 --save-dev
+npm install git://github.com/incuna/grunt-gettext-checker.git#1.1.1 --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
@@ -33,7 +33,7 @@ In your project's Gruntfile, add a section named `gettext-checker` to the data o
 grunt.initConfig({
     gettext-checker: {
         options: {
-            potFile: 'i18n/template.pot'
+            templateFile: 'i18n/template.pot'
         },
         en-gb: {
             options: {
@@ -51,7 +51,7 @@ grunt.initConfig({
 
 ### Options
 
-#### options.potFile
+#### options.templateFile
 Type: `String`
 Default value: `i18n/template.pot`
 
@@ -93,7 +93,7 @@ grunt.initConfig({
             checkPoKeys: true,
             checkPotKeys: true,
             checkKeyOrder: true,
-            potFile: 'i18n/template.pot',
+            templateFile: 'i18n/template.pot',
             poFile: 'i18n/en-gb.po',
         }
     }
@@ -106,5 +106,6 @@ grunt.initConfig({
 * Test using `grunt test`
 * To release:
     * Update `package.json` with version number (use semver)
+    * Update install version in this README.md
     * Update `CHANGELOG.md`
     * Tag release with version number

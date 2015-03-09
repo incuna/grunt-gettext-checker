@@ -21,7 +21,7 @@ module.exports = function (grunt) {
             checkPoKeys: true,
             checkPotKeys: true,
             checkKeyOrder: true,
-            potFile: 'i18n/template.pot',
+            templateFile: 'i18n/template.pot',
             poFile: 'i18n/en-gb.po'
         };
         var options = this.options(defaultOptions);
@@ -32,15 +32,15 @@ module.exports = function (grunt) {
             }
         };
 
-        checkFileExists(options.potFile);
+        checkFileExists(options.templateFile);
         checkFileExists(options.poFile);
 
         // load .pot file
-        var potFileSource = grunt.file.read(options.potFile);
+        var templateFileSource = grunt.file.read(options.templateFile);
         // load .po file
         var poFileSource = grunt.file.read(options.poFile);
 
-        var potFile = poLib.parse(potFileSource);
+        var templateFile = poLib.parse(templateFileSource);
         var poFile = poLib.parse(poFileSource);
 
         var validatePoFile = function (poObject) {
@@ -49,7 +49,7 @@ module.exports = function (grunt) {
             }
         };
 
-        validatePoFile(potFile);
+        validatePoFile(templateFile);
         validatePoFile(poFile);
 
         var getPoKeys = function (items) {
@@ -59,10 +59,10 @@ module.exports = function (grunt) {
         };
 
         // get pot file keys as array
-        var potKeys = getPoKeys(potFile.items);
+        var potKeys = getPoKeys(templateFile.items);
         var poKeys = getPoKeys(poFile.items);
 
-        grunt.log.writeln('Checking files: ' + options.potFile + '->' + options.poFile);
+        grunt.log.writeln('Checking files: ' + options.templateFile + '->' + options.poFile);
 
         var keyDiff;
 
@@ -70,7 +70,7 @@ module.exports = function (grunt) {
             // find items in template.pot that are not in this po file
             keyDiff = _.difference(potKeys, poKeys);
             if (keyDiff.length > 0 ) {
-                grunt.log.errorlns('The following translation keys in ' + options.potFile + ' are not present in ' + options.poFile);
+                grunt.log.errorlns('The following translation keys in ' + options.templateFile + ' are not present in ' + options.poFile);
                 grunt.log.error(keyDiff);
                 grunt.fail.fatal('Check FAILED.');
             } else {
@@ -82,7 +82,7 @@ module.exports = function (grunt) {
             // find items in this po file which are not in template.pot
             keyDiff = _.difference(poKeys, potKeys);
             if (keyDiff.length > 0 ) {
-                grunt.log.errorlns('The following translation keys in ' + options.poFile + ' are not present in ' + options.potFile);
+                grunt.log.errorlns('The following translation keys in ' + options.poFile + ' are not present in ' + options.templateFile);
                 grunt.log.error(keyDiff);
                 grunt.fail.fatal('Check FAILED.');
             } else {
@@ -103,7 +103,7 @@ module.exports = function (grunt) {
             // _.find returns undefined if all keys are in matching order, so we error if it is not undefined
             if (outOfOrder) {
                 grunt.log.errorlns(
-                    'The keys in ' + options.potFile + ' and ' + options.poFile + ' are not in the same order.\r\n' +
+                    'The keys in ' + options.templateFile + ' and ' + options.poFile + ' are not in the same order.\r\n' +
                     'If you were not expecting the order to change, please check your generating tool version and ' +
                     'environment to check it matches the environment used by the project.\r\n' +
                     'If you have deliberately changed the order of the .pot file, you must update the order of the ' +
