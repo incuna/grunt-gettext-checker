@@ -43,14 +43,14 @@ module.exports = function (grunt) {
         var templateFile = poLib.parse(templateFileSource);
         var poFile = poLib.parse(poFileSource);
 
-        var validatePoFile = function (poObject) {
+        var validatePoFile = function (poObject, filePath) {
             if (!poObject.headers) {
-                grunt.fail.fatal(options.poFile + ' can not be loaded. Check the file is a valid .po file');
+                grunt.fail.fatal(filePath + ' can not be loaded. Check the file is a valid .po file');
             }
         };
 
-        validatePoFile(templateFile);
-        validatePoFile(poFile);
+        validatePoFile(templateFile, options.templateFile);
+        validatePoFile(poFile, options.poFile);
 
         var getPoKeys = function (items) {
             return _.map(items, function (item) {
