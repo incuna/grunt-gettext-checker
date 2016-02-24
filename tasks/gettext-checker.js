@@ -52,10 +52,28 @@ module.exports = function (grunt) {
         validatePoFile(templateFile, options.templateFile);
         validatePoFile(poFile, options.poFile);
 
+        var getMessageId = function (item) {
+            return item.msgid;
+        };
+
         var getPoKeys = function (items) {
-            return _.map(items, function (item) {
-                return item.msgid;
+            var keys = {
+                used: [],
+                obselete: []
+            };
+            // Separate used keys from commented keys. Use two filters instead
+            // of one array and pushing so native filter methods are used which
+            // are very quick.
+            var usedItems = _.filter(items, function (item) {
+                return item.obselete === false;
             });
+            var obseleteItems = _.filter(items, function (item) {
+                return item.obselete === true;
+            });
+            // Return just the msgid values.
+            keys.used = _.map(usedItems, getMessageId);
+            keys.obselete = _.map(obseleteItems, getMessageId);
+            return keys;
         };
 
         // get pot file keys as array
@@ -68,7 +86,7 @@ module.exports = function (grunt) {
 
         if (options.checkPoKeys) {
             // find items in template.pot that are not in this po file
-            keyDiff = _.difference(potKeys, poKeys);
+            keyDiff = _.difference(potKeys.used, poKeys.used);
             if (keyDiff.length > 0 ) {
                 grunt.log.errorlns('The following translation keys in ' + options.templateFile + ' are not present in ' + options.poFile);
                 grunt.log.error(keyDiff);
@@ -80,7 +98,7 @@ module.exports = function (grunt) {
 
         if (options.checkPotKeys) {
             // find items in this po file which are not in template.pot
-            keyDiff = _.difference(poKeys, potKeys);
+            keyDiff = _.difference(poKeys.used, potKeys.used);
             if (keyDiff.length > 0 ) {
                 grunt.log.errorlns('The following translation keys in ' + options.poFile + ' are not present in ' + options.templateFile);
                 grunt.log.error(keyDiff);
@@ -93,7 +111,7 @@ module.exports = function (grunt) {
         if (options.checkKeyOrder) {
             // Check if keys in .pot file and .po file are in same order. We use _.some to drop out as soon as we find
             //  one non-matching key to make things a bit faster.
-            var outOfOrder = _.some(potKeys, function (item, index) {
+            var outOfOrder = _.some(potKeys.used, function (item, index) {
                 if (poKeys[index] !== item) {
                     // The keys don't match, so are out of order
                     return true;

@@ -1,3 +1,6 @@
+### Upcoming
+* Ignore commented translations when comparing between files
+
 ## 2.0.0
 * Tidy up key order code to make easier to read
 * Wrap error message line output at 80 chars
