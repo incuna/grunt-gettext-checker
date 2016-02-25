@@ -61,18 +61,17 @@ module.exports = function (grunt) {
                 used: [],
                 obselete: []
             };
-            // Separate used keys from commented keys. Use two filters instead
-            // of one array and pushing so native filter methods are used which
-            // are very quick.
-            var usedItems = _.filter(items, function (item) {
+            // Separate used keys from commented keys. Use two filter loops
+            // instead of one loop and pushing, because pushing isn't quick.
+            var usedItems = items.filter(function (item) {
                 return item.obselete === false;
             });
-            var obseleteItems = _.filter(items, function (item) {
+            var obseleteItems = items.filter(function (item) {
                 return item.obselete === true;
             });
             // Return just the msgid values.
-            keys.used = _.map(usedItems, getMessageId);
-            keys.obselete = _.map(obseleteItems, getMessageId);
+            keys.used = usedItems.map(getMessageId);
+            keys.obselete = obseleteItems.map(getMessageId);
             return keys;
         };
 
@@ -109,8 +108,9 @@ module.exports = function (grunt) {
         }
 
         if (options.checkKeyOrder) {
-            // Check if keys in .pot file and .po file are in same order. We use _.some to drop out as soon as we find
-            //  one non-matching key to make things a bit faster.
+            // Check if keys in .pot file and .po file are in same order. We use
+            // _.some to drop out as soon as we find one non-matching key to
+            // make things a bit faster.
             var outOfOrder = _.some(potKeys.used, function (item, index) {
                 if (poKeys[index] !== item) {
                     // The keys don't match, so are out of order
@@ -118,7 +118,6 @@ module.exports = function (grunt) {
                 }
                 return false;
             });
-            // _.find returns undefined if all keys are in matching order, so we error if it is not undefined
             if (outOfOrder) {
                 grunt.log.errorlns(
                     'The keys in ' + options.templateFile + ' and ' + options.poFile + ' are not in the same order.\r\n' +

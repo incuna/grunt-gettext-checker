@@ -1,5 +1,6 @@
 ### Upcoming
 * Ignore commented translations when comparing between files
+* Use native array methods for filtering and mapping
 
 ## 2.0.0
 * Tidy up key order code to make easier to read
