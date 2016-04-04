@@ -59,19 +59,19 @@ module.exports = function (grunt) {
         var getPoKeys = function (items) {
             var keys = {
                 used: [],
-                obselete: []
+                obsolete: []
             };
             // Separate used keys from commented keys. Use two filter loops
             // instead of one loop and pushing, because pushing isn't quick.
             var usedItems = items.filter(function (item) {
-                return item.obselete === false;
+                return item.obsolete === false;
             });
-            var obseleteItems = items.filter(function (item) {
-                return item.obselete === true;
+            var obsoleteItems = items.filter(function (item) {
+                return item.obsolete === true;
             });
             // Return just the msgid values.
             keys.used = usedItems.map(getMessageId);
-            keys.obselete = obseleteItems.map(getMessageId);
+            keys.obsolete = obsoleteItems.map(getMessageId);
             return keys;
         };
 
