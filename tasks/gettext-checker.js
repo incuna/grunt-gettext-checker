@@ -20,9 +20,7 @@ module.exports = function (grunt) {
         var defaultOptions = {
             checkPoKeys: true,
             checkPotKeys: true,
-            checkKeyOrder: true,
-            templateFile: 'i18n/template.pot',
-            poFile: 'i18n/en-gb.po'
+            checkKeyOrder: true
         };
         var options = this.options(defaultOptions);
 
@@ -46,7 +44,7 @@ module.exports = function (grunt) {
 
         var error = false;
 
-        var checkPoFile = function (poFilePath, templateFile, potKeys) {
+        var checkPoFile = function (poFilePath, templateFile, templateFilePath, potKeys) {
             // load .po file
             checkFileExists(poFilePath);
             var poFileSource = grunt.file.read(poFilePath);
@@ -57,7 +55,7 @@ module.exports = function (grunt) {
             // get po file keys as array
             var poKeys = getPoKeys(poFile.items);
 
-            grunt.log.writeln('Checking files: ' + options.templateFile + '->' + poFilePath);
+            grunt.log.writeln('Checking files: ' + templateFilePath + '->' + poFilePath);
 
             var keyDiff;
 
@@ -65,7 +63,7 @@ module.exports = function (grunt) {
                 // find items in template.pot that are not in this po file
                 keyDiff = _.difference(potKeys, poKeys);
                 if (keyDiff.length > 0 ) {
-                    grunt.log.errorlns('The following translation keys in ' + options.templateFile + ' are not present in ' + poFilePath);
+                    grunt.log.errorlns('The following translation keys in ' + templateFilePath + ' are not present in ' + poFilePath);
                     grunt.log.error(keyDiff);
                     error = true;
                 } else {
@@ -77,7 +75,7 @@ module.exports = function (grunt) {
                 // find items in this po file which are not in template.pot
                 keyDiff = _.difference(poKeys, potKeys);
                 if (keyDiff.length > 0 ) {
-                    grunt.log.errorlns('The following translation keys in ' + poFilePath + ' are not present in ' + options.templateFile);
+                    grunt.log.errorlns('The following translation keys in ' + poFilePath + ' are not present in ' + templateFilePath);
                     grunt.log.error(keyDiff);
                     error = true;
                 } else {
@@ -98,7 +96,7 @@ module.exports = function (grunt) {
                 // _.find returns undefined if all keys are in matching order, so we error if it is not undefined
                 if (outOfOrder) {
                     grunt.log.errorlns(
-                        'The keys in ' + options.templateFile + ' and ' + poFilePath + ' are not in the same order.\r\n' +
+                        'The keys in ' + templateFilePath + ' and ' + poFilePath + ' are not in the same order.\r\n' +
                         'If you were not expecting the order to change, please check your generating tool version and ' +
                         'environment to check it matches the environment used by the project.\r\n' +
                         'If you have deliberately changed the order of the .pot file, you must update the order of the ' +
@@ -114,18 +112,19 @@ module.exports = function (grunt) {
         };
 
         // load .pot file
-        checkFileExists(options.templateFile);
-        var templateFileSource = grunt.file.read(options.templateFile);
+        var templateFilePath = this.files[0].dest;
+        checkFileExists(templateFilePath);
+        var templateFileSource = grunt.file.read(templateFilePath);
 
         var templateFile = poLib.parse(templateFileSource);
-        validatePoFile(templateFile, options.templateFile);
+        validatePoFile(templateFile, templateFilePath);
 
         // get pot file keys as array
         var potKeys = getPoKeys(templateFile.items);
 
-        var poFiles = grunt.file.expand(options.poFile);
+        var poFiles = this.filesSrc;
         poFiles.forEach(function (poFile) {
-            checkPoFile(poFile, templateFile, potKeys);
+            checkPoFile(poFile, templateFile, templateFilePath, potKeys);
         });
 
         if (error) {
