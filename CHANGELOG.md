@@ -1,4 +1,4 @@
-# upcoming
+# 3.0.0
 
 * Allow to use mutliple `.po` files
 * The test will no longer fail after it encounters the first failing case, it will carry on to check all language files and error in the end
