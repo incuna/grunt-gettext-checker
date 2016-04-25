@@ -32,16 +32,16 @@ module.exports = function (grunt) {
             }
         };
 
-        var getPoKeys = function (items) {
-            return _.map(items, function (item) {
-                return item.msgid;
-            });
-        };
-
         var validatePoFile = function (poObject, filePath) {
             if (!poObject.headers) {
                 grunt.fail.fatal(filePath + ' can not be loaded. Check the file is a valid .po file');
             }
+        };
+
+        var getPoKeys = function (items) {
+            return _.map(items, function (item) {
+                return item.msgid;
+            });
         };
 
         var error = false;
