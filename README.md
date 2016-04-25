@@ -28,6 +28,9 @@ grunt.loadNpmTasks('grunt-gettext-checker');
 ### Overview
 In your project's Gruntfile, add a section named `gettext-checker` to the data object passed into `grunt.initConfig()`.
 
+In the `files` object, `dest` should be the catalog `.pot` file and `src` should be individual `.po` files to check.
+
+
 ```js
 
 grunt.initConfig({
