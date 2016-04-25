@@ -1,4 +1,19 @@
-## 2.0.0
+# upcoming
+
+* Allow to use mutliple `.po` files
+* BREAKING CHANGE: files are now longer defined in `options`, use standard grunt `files` object:
+```js
+'gettext-checker': {
+    all: {
+        files: {
+            'i18n/template.pot': 'i18n/*.po'
+        }
+    }
+}
+```
+
+
+# 2.0.0
 * Tidy up key order code to make easier to read
 * Wrap error message line output at 80 chars
 * Rename `potFile` option to `templateFile` to avoid confusion with `poFile` option *BREAKING CHANGE*
