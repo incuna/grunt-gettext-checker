@@ -28,21 +28,18 @@ grunt.loadNpmTasks('grunt-gettext-checker');
 ### Overview
 In your project's Gruntfile, add a section named `gettext-checker` to the data object passed into `grunt.initConfig()`.
 
+In the `files` object, `dest` should be the catalog `.pot` file and `src` should be individual `.po` files to check.
+
+
 ```js
 
 grunt.initConfig({
-    gettext-checker: {
-        options: {
-            templateFile: 'i18n/template.pot'
-        },
-        en-gb: {
-            options: {
-                poFile: 'i18n/en-gb.po'
-            }
-        },
-        de-de: {
-            options: {
-                poFile: 'i18n/de-de.po'
+    'gettext-checker': {
+        'gettext-checker': {
+            all: {
+                files: {
+                    'i18n/template.pot': 'i18n/*.po'
+                }
             }
         }
     }
