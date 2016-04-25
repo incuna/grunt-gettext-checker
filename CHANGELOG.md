@@ -1,7 +1,7 @@
 # upcoming
 
 * Allow to use mutliple `.po` files
-* BREAKING CHANGE: files are now longer defined in `options`, use standard grunt `files` object:
+* BREAKING CHANGE: files are no longer defined in `options`, use standard grunt `files` object:
 ```js
 'gettext-checker': {
     all: {
