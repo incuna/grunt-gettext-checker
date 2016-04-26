@@ -112,7 +112,7 @@ module.exports = function (grunt) {
             // _.some to drop out as soon as we find one non-matching key to
             // make things a bit faster.
             var outOfOrder = _.some(potKeys.used, function (item, index) {
-                if (poKeys[index] !== item) {
+                if (poKeys.used[index] !== item) {
                     // The keys don't match, so are out of order
                     return true;
                 }
