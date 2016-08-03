@@ -1,3 +1,8 @@
+# 4.0.0 (upcoming)
+
+* Remove `peerDependencies` from `package.json`. In npm > 3, peerDependencies is used as a
+check at the end of the install.
+
 # 3.0.0
 
 * Allow to use mutliple `.po` files
