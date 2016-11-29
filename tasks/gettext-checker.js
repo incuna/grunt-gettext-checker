@@ -80,8 +80,8 @@ module.exports = function (grunt) {
                 // find items in template.pot that are not in this po file
                 keyDiff = _.difference(potKeys.used, poKeys.used);
                 if (keyDiff.length > 0 ) {
-                    grunt.log.errorlns('The following translation keys in ' + templateFilePath + ' are not present in ' + poFilePath);
-                    grunt.log.error(keyDiff);
+                    grunt.log.errorlns('The following translation keys in ' + templateFilePath + ' are not present in ' + poFilePath + ':');
+                    grunt.log.writeln(grunt.log.wordlist(keyDiff));
                     error = true;
                 } else {
                     grunt.log.ok('All keys from .pot template are present in .po file.');
@@ -92,8 +92,8 @@ module.exports = function (grunt) {
                 // find items in this po file which are not in template.pot
                 keyDiff = _.difference(poKeys.used, potKeys.used);
                 if (keyDiff.length > 0 ) {
-                    grunt.log.errorlns('The following translation keys in ' + poFilePath + ' are not present in ' + templateFilePath);
-                    grunt.log.error(keyDiff);
+                    grunt.log.errorlns('The following translation keys in ' + poFilePath + ' are not present in ' + templateFilePath + ':');
+                    grunt.log.writeln(grunt.log.wordlist(keyDiff));
                     error = true;
                 } else {
                     grunt.log.ok('All keys from .po file are present in .pot template.');
