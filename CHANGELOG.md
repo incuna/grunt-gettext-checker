@@ -1,3 +1,7 @@
+# Upcoming
+* Ignore commented translations when comparing between files
+* Use native array methods for filtering and mapping
+
 # 3.0.0
 
 * Allow to use mutliple `.po` files

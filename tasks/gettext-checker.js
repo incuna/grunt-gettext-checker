@@ -36,10 +36,27 @@ module.exports = function (grunt) {
             }
         };
 
+        var getMessageId = function (item) {
+            return item.msgid;
+        };
+
         var getPoKeys = function (items) {
-            return _.map(items, function (item) {
-                return item.msgid;
+            var keys = {
+                used: [],
+                obsolete: []
+            };
+            // Separate used keys from commented keys. Use two filter loops
+            // instead of one loop and pushing, because pushing isn't quick.
+            var usedItems = items.filter(function (item) {
+                return item.obsolete === false;
             });
+            var obsoleteItems = items.filter(function (item) {
+                return item.obsolete === true;
+            });
+            // Return just the msgid values.
+            keys.used = usedItems.map(getMessageId);
+            keys.obsolete = obsoleteItems.map(getMessageId);
+            return keys;
         };
 
         var error = false;
@@ -61,10 +78,10 @@ module.exports = function (grunt) {
 
             if (options.checkPoKeys) {
                 // find items in template.pot that are not in this po file
-                keyDiff = _.difference(potKeys, poKeys);
+                keyDiff = _.difference(potKeys.used, poKeys.used);
                 if (keyDiff.length > 0 ) {
-                    grunt.log.errorlns('The following translation keys in ' + templateFilePath + ' are not present in ' + poFilePath);
-                    grunt.log.error(keyDiff);
+                    grunt.log.errorlns('The following translation keys in ' + templateFilePath + ' are not present in ' + poFilePath + ':');
+                    grunt.log.writeln(grunt.log.wordlist(keyDiff));
                     error = true;
                 } else {
                     grunt.log.ok('All keys from .pot template are present in .po file.');
@@ -73,10 +90,10 @@ module.exports = function (grunt) {
 
             if (options.checkPotKeys) {
                 // find items in this po file which are not in template.pot
-                keyDiff = _.difference(poKeys, potKeys);
+                keyDiff = _.difference(poKeys.used, potKeys.used);
                 if (keyDiff.length > 0 ) {
-                    grunt.log.errorlns('The following translation keys in ' + poFilePath + ' are not present in ' + templateFilePath);
-                    grunt.log.error(keyDiff);
+                    grunt.log.errorlns('The following translation keys in ' + poFilePath + ' are not present in ' + templateFilePath + ':');
+                    grunt.log.writeln(grunt.log.wordlist(keyDiff));
                     error = true;
                 } else {
                     grunt.log.ok('All keys from .po file are present in .pot template.');
@@ -84,16 +101,16 @@ module.exports = function (grunt) {
             }
 
             if (options.checkKeyOrder) {
-                // Check if keys in .pot file and .po file are in same order. We use _.some to drop out as soon as we find
-                //  one non-matching key to make things a bit faster.
-                var outOfOrder = _.some(potKeys, function (item, index) {
-                    if (poKeys[index] !== item) {
+                // Check if keys in .pot file and .po file are in same order. We
+                // use _.some to drop out as soon as we find  one non-matching
+                // key to make things a bit faster.
+                var outOfOrder = _.some(potKeys.used, function (item, index) {
+                    if (poKeys.used[index] !== item) {
                         // The keys don't match, so are out of order
                         return true;
                     }
                     return false;
                 });
-                // _.find returns undefined if all keys are in matching order, so we error if it is not undefined
                 if (outOfOrder) {
                     grunt.log.errorlns(
                         'The keys in ' + templateFilePath + ' and ' + poFilePath + ' are not in the same order.\r\n' +
