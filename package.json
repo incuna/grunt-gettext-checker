@@ -1,6 +1,6 @@
 {
   "name": "grunt-gettext-checker",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Compare .pot and .po files for differences",
   "keywords": [
     "gruntplugin"

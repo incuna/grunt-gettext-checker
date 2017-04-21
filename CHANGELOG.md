@@ -1,3 +1,6 @@
+### 3.0.1
+* Update Grunt peer dependencies
+
 # 3.0.0
 
 * Allow to use mutliple `.po` files
